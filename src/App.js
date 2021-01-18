@@ -4,7 +4,7 @@ import React from "react";
 import stackPhoto from "./assets/img/crabswim.gif"
 
 function App() {
-  const menuBlackWindow = useRef()
+  const menuContentsRef = useRef();
   const menuRef = useRef();
   const isMunuShow = useRef(false);
   const slideWrapRef = useRef();
@@ -12,7 +12,7 @@ function App() {
   const pageArray = new Array();
   const currentPage = useRef(0);
   const isAllSliding = useRef(false);
-  const isSlidingArray = useRef([0, 1, 2]);
+  const isSlidingArray = useRef([0, 1, 2, 3]);
   const slideDirection = useRef(null);
   const counterArray = useRef(new Array());
   const progressArray = useRef(new Array());
@@ -34,11 +34,14 @@ function App() {
   const scrollEvent = (e) => {
     if (isAllSliding.current) return; // 모든 슬라이더가 끝나면
     if (isMunuShow.current) return;
+    // console.log("clientX : " + e.targetTouches[0].clientY);
+    // console.log("screenY : " + e.targetTouches[0].screenY);
+    // console.log("page : " + e.targetTouches[0].pageY);
     // event.preventDefault();
     if (e.deltaY < 0) {
       // 스크롤 아래 방향으로
       pageEvent(-1);
-    } else {
+    } else if (e.deltaY > 0) {
       // 위로
       pageEvent(1)
     }
@@ -82,6 +85,38 @@ function App() {
     }, 800);
   }
 
+  const menuNavContentClick = (changePageIndex) => {
+    if (currentPage.current === changePageIndex) return;
+    currentPage.current = changePageIndex;
+    setChangePage({});
+    pageArray[currentPage.current].style.zIndex = `1`;
+    pageArray[currentPage.current].style.transform = `translateX(0px)`;
+    pageArray[currentPage.current].classList.add("active");
+
+    isAllSliding.current = true;
+    pageArray[currentPage.current].style.zIndex = `0`;
+    let j = 1;
+    for (let i = currentPage.current + 1; i < pageArray.length; i++) {
+      const screenWidth = document.body.offsetWidth;
+      isSlidingArray.current[i] = j;
+      pageArray[i].classList.remove("active");
+      const distance = screenWidth * isSlidingArray.current[i];
+      pageArray[i].style.transform = `translateX(${distance}px)`;
+      j++
+    }
+    j = -1;
+    for (let i = currentPage.current - 1; i >= 0; i--) {
+      const screenWidth = document.body.offsetWidth;
+      isSlidingArray.current[i] = j;
+      pageArray[i].classList.remove("active");
+      const distance = screenWidth * isSlidingArray.current[i];
+      pageArray[i].style.transform = `translateX(${distance}px)`;
+      j--;
+    }
+    menuToggle();
+    isAllSliding.current = false;
+  }
+
   useEffect(() => {
 
     for (let i = 0; i < pageArray.length; i++) {
@@ -91,6 +126,15 @@ function App() {
       }
       progressSliderArray.current.children[i].classList.remove("fill");
     }
+
+    for (let i = 0; i < pageArray.length; i++) {
+      if (i === currentPage.current) {
+        menuContentsRef.current.children[i].children[0].classList.add("current-maraker");
+        continue
+      }
+      menuContentsRef.current.children[i].children[0].classList.remove("current-maraker");
+    }
+
     if (currentPage.current !== 2) return
     for (let i = 0; i < counterArray.current.length; i++) {
       const counter = counterArray.current[i].innerText;
@@ -110,8 +154,10 @@ function App() {
 
   useEffect(() => {
     window.addEventListener('wheel', scrollEvent);
+    window.addEventListener('touchmove', scrollEvent)
     return () => {
       window.removeEventListener('wheel', scrollEvent);
+      window.removeEventListener('touchmove', scrollEvent)
     }
   }, []);
 
@@ -121,23 +167,34 @@ function App() {
         <div ref={menuRef} className="offcanvas-menu flex-direction-column">
           <div className="offcanvas-menu-header">
             <div onClick={menuToggle} className="offcanvas-menu-header-close">
-              <i class="far fa-window-close icon"></i>
+              <i className="far fa-window-close icon"></i>
             </div>
           </div>
           <nav className="offcanvas-menu-navbar">
-            <ul className="offcanvas-menu-navbar-content-list row flex-direction-column">
-              <li className="offcanvas-menu-navbar-content">home</li>
-              <li className="offcanvas-menu-navbar-content">service</li>
-              <li className="offcanvas-menu-navbar-content">stack</li>
-              <li className="offcanvas-menu-navbar-content">portfolio</li>
-              <li className="offcanvas-menu-navbar-content">contact</li>
+            <ul
+              ref={menuContentsRef}
+              className="offcanvas-menu-navbar-content-list row flex-direction-column">
+              <li data-menuanchor="home" className="offcanvas-menu-navbar-content"><h3 onClick={() => { menuNavContentClick(0) }}>home</h3></li>
+              <li data-menuanchor="service" className="offcanvas-menu-navbar-content"><h3 onClick={() => { menuNavContentClick(1) }}>service</h3></li>
+              <li data-menuanchor="stack" className="offcanvas-menu-navbar-content"><h3 onClick={() => { menuNavContentClick(2) }}>stack</h3></li>
+              <li data-menuanchor="portfolio" className="offcanvas-menu-navbar-content"><h3 onClick={() => { menuNavContentClick(3) }}>portfolio</h3></li>
+              <li data-menuanchor="contact" className="offcanvas-menu-navbar-content"><h3 onClick={() => { menuNavContentClick(4) }}>contact</h3></li>
             </ul>
           </nav>
           <footer className="offcanvas-menu-footer">
             <nav className="offcanvas-menu-footer-navbar">
-              <ul className="offcanvas-menu-footer-navbar-content-list">
-                <li className="offcanvas-menu-footer-navbar-content">깃허브</li>
-                <li className="offcanvas-menu-footer-navbar-content">이메일</li>
+              <ul className="offcanvas-menu-footer-navbar-content-list row flex-direction-column">
+                <li className="offcanvas-menu-footer-navbar-content">
+                  <button className="offcanvas-menu-footer-navbar-content--github">
+                    <i className="fab fa-github github-icon icon"></i>
+                  </button>
+                </li>
+                <div className="gap-15"></div>
+                <li className="offcanvas-menu-footer-navbar-content">
+                  <button className="offcanvas-menu-footer-navbar-content--email">
+                    <i className="far fa-envelope email-icon icon"></i>
+                  </button>
+                </li>
               </ul>
             </nav>
           </footer>
@@ -177,7 +234,7 @@ function App() {
               pageArray.push(element)
             })}
             className="home page page0 active">
-            <div className="verticla-align">
+            <div className="vertical-align">
               <div className="container">
                 <div className="introduce row flex-direction-column ">
                   <div className="introduce-name">
@@ -198,21 +255,19 @@ function App() {
               pageArray.push(element)
             })}
             className="service page page1">
-            <div className="verticla-align">
+            <div className="vertical-align service-vertical-align">
               <div className="container">
                 <div className="row flex-direction-column">
                   <div className="service-preface">
                     <h4>안녕하세요 프론트엔드 개발자 정하형 입니다.</h4>
                   </div>
-                  <div className="gap-35"></div>
                   <ul className="service-list">
                     {/* hover event 추가 */}
                     <li className="service-box service-box0 row">
-                      <div className="gap-35"></div>
                       <div className="service-icon">
                         <span><i className="fas fa-laptop-code"></i></span>
                       </div>
-                      <div className="gap-35"></div>
+                      <div className="gap-15"></div>
                       <div className="service-title">
                         <h3>웹 개발을 할수있어요 !</h3>
                       </div>
@@ -222,11 +277,10 @@ function App() {
                       </div>
                     </li>
                     <li className="service-box service-box1 row">
-                      <div className="gap-35"></div>
                       <div className="service-icon">
                         <span><i className="fas fa-search-plus"></i></span>
                       </div>
-                      <div className="gap-35"></div>
+                      <div className="gap-15"></div>
                       <div className="service-title">
                         <h3>최적화를 중요하게 생각합니다.</h3>
                       </div>
@@ -236,11 +290,10 @@ function App() {
                       </div>
                     </li>
                     <li className="service-box service-box2 row">
-                      <div className="gap-35"></div>
                       <div className="service-icon">
                         <span><img></img></span>
                       </div>
-                      <div className="gap-35"></div>
+                      <div className="gap-15"></div>
                       <div className="service-title">
                         <h3>웹 개발을 할수있어요 !</h3>
                       </div>
@@ -261,7 +314,7 @@ function App() {
               pageArray.push(element)
             })}
             className="stack page page2">
-            <div className="verticla-align">
+            <div className="vertical-align">
               <div className="container">
                 <div className="row align-items-center">
                   <figure className="photo">
@@ -356,6 +409,67 @@ function App() {
                             if (progressArray.current[4]) return
                             progressArray.current.push(element)
                           })} ></span>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            ref={(element => {
+              if (pageArray[3]) return
+              pageArray.push(element)
+            })}
+            className="portfolio page3 page">
+            <div className="vertical-align">
+              <div className="container">
+                <div className="portfolio-header">
+                  <div className="portfolio-perpace"><h3>portfolio</h3></div>
+                  <div className="portfolio-slide row">
+                    <div className="portfolio-slide-button--right">
+                      <button><i className="fas fa-arrow-left icon-right icon"></i></button>
+                    </div>
+                    <div className="portfolio-current-page">1</div>
+                    <div className="protfolio-separator-page">/</div>
+                    <div className="portfolio-max-page">2</div>
+                    <div className="portfolio-slide-button--left">
+                      <button><i className="fas fa-arrow-right icon-left icon"></i></button>
+                    </div>
+                  </div>
+                </div>
+                <div className="gap-35"></div>
+                <div className="row justify-content-center">
+                  <div className="portfolio-photo-wrap">
+                    <div className="portfolio-photo">
+                      <div>
+                        <span>이미지</span>
+                        <img></img>
+                      </div>
+                    </div>
+                    <div className="gap-15"></div>
+                    <div className="portfolio-view">
+                      <div className="portfolio-view--github">깃허브</div>
+                      <div className="portfolio-view--web-page">사이트</div>
+                    </div>
+                  </div>
+                  <div className="portfolio-explanation row flex-direction-column">
+                    <div className="portfolio-title-preface">
+                      <h3>이름</h3>
+                    </div>
+                    <div className="portfolio-title">비틀즈 소개 사이트</div>
+                    <div className="portfolio-description-preface">
+                      <h3>설명</h3>
+                    </div>
+                    <div className="portfolio-description">비틀즈의 노래를 좋아해서 만들어본 비틀즈 소개 사이트</div>
+                    <div className="portfolio-used-stack-preface">
+                      <h3>사용된 기술</h3>
+                    </div>
+                    <ul className="portfolio-used-stack-list">
+                      <li className="portfolio-used-stack">
+                        <div className="portfolio-used-stack--react">
+                          <i className="fab fa-react stack-icon stack-icon-react"></i>
                         </div>
                       </li>
                     </ul>

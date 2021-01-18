@@ -1,4 +1,4 @@
-.stack,.home,.service{
+.page{
   width: 100vw;
   height: 100vh;
   padding: 70px 0;
@@ -16,11 +16,15 @@
 .stack{
   background-color: #ffab91;
 }
+.portfolio {
+  background-color: #bcbcbc;
+}
 .container{
   width: 100%;
   max-width: 1200px;
   padding: 0 15px;
   margin: 0 auto;
+  position: relative;
 }
 .introduce> h1 {
   font-size: 3em;
@@ -30,8 +34,6 @@
   list-style: none;
   display: flex;
   flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: space-between;
 }
 .row{
   display: flex;
@@ -43,7 +45,8 @@
 .service-box{
   max-width: 30%;
   height: 300px;
-  padding: 0 20px;
+  margin: 1.5%;
+  padding: 20px;
   flex-grow: 0;
   flex-shrink: 0;
   flex-basis: 30%;
@@ -51,8 +54,9 @@
   box-shadow: 2px 5px 16px 0px #0B325E, 5px 5px 15px 5px rgba(0,0,0,0);
   align-items: center;
   flex-direction: column;
+  justify-content: center;
 }
-.verticla-align{
+.vertical-align{
   width: 100%;
   min-height: 100%;
   display: flex;
@@ -117,6 +121,7 @@
 }
 .service-preface{
   font-size: 2em;
+  margin-bottom: 15px;
 }
 .gap-35{
   width: 100%;
@@ -292,6 +297,13 @@
   font-weight: bold;
   text-transform: uppercase;
 }
+.offcanvas-menu-navbar-content > h3 {
+  display: inline;
+  transition: color .5s ease;
+}
+.offcanvas-menu-navbar-content > h3:hover {
+  color: #707070;
+}
 .offcanvas-menu-navbar-content-list{
   justify-content: space-evenly;
   height: 100%;
@@ -302,3 +314,138 @@
   display: inline-block;
   height: 100%;
 }
+.portfolio-title-preface,.portfolio-description-preface,.portfolio-used-stack-preface{
+  font-size: 1.7em;
+}
+.portfolio-explanation{
+  margin-left: 7rem;
+}
+.offcanvas-menu-footer-navbar-content--github,.offcanvas-menu-footer-navbar-content--email{
+  display: block;
+  width: 100px;
+  height: 100%;
+  outline: none;
+  border-radius: 7px;
+}
+.github-icon,.email-icon{
+  font-size: 3em;
+}
+.offcanvas-menu-footer-navbar-content--github{
+  background-color: #ffee58;
+}
+.portfolio-photo{
+  background-color: red;
+  width: 275px;
+  height: 250px;
+}
+.portfolio-used-stack-list{
+  list-style-type: none;
+}
+.portfolio-used-stack--react{
+  display: inline;
+}
+.stack-icon {
+  font-size: 2em;
+}
+.stack-icon-react{
+  color: #42a5f5;
+  background-color: white;
+  border-radius: 15px;
+  padding: 5px;
+}
+.current-maraker::before {
+  content: "- ";
+}
+.current-maraker{
+  color: #707070;
+}
+.justify-content-center{
+  justify-content: center;
+}
+.icon-left,.icon-right {
+  font-size: 3em;
+}
+.portfolio-slide-button--right > button,.portfolio-slide-button--left > button {
+  background: none;
+  border: none;
+  outline: none;
+}
+.portfolio-slide{
+  font-size: 2em;
+}
+.portfolio-perpace > h3{
+  font-size: 3em;
+  text-transform: capitalize;
+  font-weight: bold;
+}
+.portfolio-header{
+  padding: 0 50px;
+  margin: 0 40px;
+}
+.portfolio-header::after {
+  content: " ";
+  display: block;
+  clear: both;
+}
+.portfolio-perpace{
+  float: left;
+}
+.portfolio-slide{
+  float: right;
+}
+.portfolio-slide > * {
+  padding: 0 10px;
+}
+.portfolio-view--github,.portfolio-view--web-page {
+  display: inline-block;
+  width: 50%;
+  text-align: center;
+  background-color:#26c6da;
+  border: 1px solid rgba(0, 0, 0, 0.116);
+}
+
+@media (max-width: 1040px) {
+  .service-box {
+    flex: 0 0 45%;
+    max-width: 45%;
+    margin: 2.5%;
+  }
+  .navbar-email{
+    display: none;
+  }
+  .navbar-inner{
+    padding: 35px 15px;
+  }
+}
+@media (max-width: 740px) {
+  .service-box {
+    flex: 0 0 80%;
+    max-width: 80%;
+    margin: 0 10%;
+    margin-bottom: 3em;
+    height: 200px;
+    padding: 5px;
+    font-size: 14px;
+  }
+  .service-preface{
+    font-size: 1.2em;
+    display: none;
+  }
+  .service-vertical-align{
+    /* align-items: flex-end; */
+  }
+}
+/* @media (max-height: 740px) {
+  .service-box {
+    flex: 0 0 80%;
+    max-width: 80%;
+    margin: 0 10%;
+    margin-bottom: 1em;
+    height: 200px;
+    padding: 5px;
+    font-size: 14px;
+  }
+  .service-vertical-align{
+    align-items: flex-end;
+  }
+} */
