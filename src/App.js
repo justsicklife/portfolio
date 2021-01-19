@@ -12,7 +12,7 @@ function App() {
   const pageArray = new Array();
   const currentPage = useRef(0);
   const isAllSliding = useRef(false);
-  const isSlidingArray = useRef([0, 1, 2, 3]);
+  const isSlidingArray = useRef([0, 1, 2, 3, 4]);
   const slideDirection = useRef(null);
   const counterArray = useRef(new Array());
   const progressArray = useRef(new Array());
@@ -183,13 +183,12 @@ function App() {
           </nav>
           <footer className="offcanvas-menu-footer">
             <nav className="offcanvas-menu-footer-navbar">
-              <ul className="offcanvas-menu-footer-navbar-content-list row flex-direction-column">
+              <ul className="offcanvas-menu-footer-navbar-content-list">
                 <li className="offcanvas-menu-footer-navbar-content">
                   <button className="offcanvas-menu-footer-navbar-content--github">
                     <i className="fab fa-github github-icon icon"></i>
                   </button>
                 </li>
-                <div className="gap-15"></div>
                 <li className="offcanvas-menu-footer-navbar-content">
                   <button className="offcanvas-menu-footer-navbar-content--email">
                     <i className="far fa-envelope email-icon icon"></i>
@@ -255,7 +254,7 @@ function App() {
               pageArray.push(element)
             })}
             className="service page page1">
-            <div className="vertical-align service-vertical-align">
+            <div className="vertical-align">
               <div className="container">
                 <div className="row flex-direction-column">
                   <div className="service-preface">
@@ -267,11 +266,9 @@ function App() {
                       <div className="service-icon">
                         <span><i className="fas fa-laptop-code"></i></span>
                       </div>
-                      <div className="gap-15"></div>
                       <div className="service-title">
                         <h3>웹 개발을 할수있어요 !</h3>
                       </div>
-                      <div className="gap-15"></div>
                       <div className="service-description">
                         <p>네.</p>
                       </div>
@@ -280,11 +277,9 @@ function App() {
                       <div className="service-icon">
                         <span><i className="fas fa-search-plus"></i></span>
                       </div>
-                      <div className="gap-15"></div>
                       <div className="service-title">
                         <h3>최적화를 중요하게 생각합니다.</h3>
                       </div>
-                      <div className="gap-15"></div>
                       <div className="service-description">
                         <p>사용자의 메모리를 최소한으로 사용할수 있게 항상 고민합니다.</p>
                       </div>
@@ -293,11 +288,9 @@ function App() {
                       <div className="service-icon">
                         <span><img></img></span>
                       </div>
-                      <div className="gap-15"></div>
                       <div className="service-title">
                         <h3>웹 개발을 할수있어요 !</h3>
                       </div>
-                      <div className="gap-15"></div>
                       <div className="service-description">
                         <p>네.</p>
                       </div>
@@ -316,20 +309,19 @@ function App() {
             className="stack page page2">
             <div className="vertical-align">
               <div className="container">
-                <div className="row align-items-center">
+                <div className="row align-items-center stack-row">
                   <figure className="photo">
                     <div className="photo-inside">
                       <img src={stackPhoto}></img>
                     </div>
-                    <figcaption>
+                    {/* <figcaption>
                       마땅히 올릴 사진이 없어서...
-                    </figcaption>
+                    </figcaption> */}
                   </figure>
                   <div className="stack-wrap">
                     <div className="stack-title">
                       <h4>저는 최적화 와 친밀한 디자인을 중요시 여기면서 웹 사이트를 만드는 것을 즐겨합니다.</h4>
                     </div>
-                    <div className="gap-35"></div>
                     <ul className="progress-bar-list">
                       <li className="progress-bar-wrap">
                         <div className="progress-bar-title">
@@ -439,7 +431,6 @@ function App() {
                     </div>
                   </div>
                 </div>
-                <div className="gap-35"></div>
                 <div className="row justify-content-center">
                   <div className="portfolio-photo-wrap">
                     <div className="portfolio-photo">
@@ -473,6 +464,26 @@ function App() {
                         </div>
                       </li>
                     </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            ref={(element => {
+              if (pageArray[4]) return
+              pageArray.push(element)
+            })}>
+            <div className="contact page page4">
+              <div className="vertical-align">
+                <div className="container">
+                  <div className="row flex-direction-column contact-row">
+                    <div className="contact-title">
+                      <h3>다음에 보겠습니다.</h3>
+                    </div>
+                    <div className="contant-email">
+                      <a>justsicklife@gmail.com</a>
+                    </div>
                   </div>
                 </div>
               </div>
