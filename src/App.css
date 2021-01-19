@@ -1,3 +1,8 @@
+body {
+  position: fixed;
+  left: 0;
+  top: 0;
+}
 .page{
   width: 100vw;
   height: 100vh;
@@ -8,19 +13,22 @@
   transition: transform .7s;
 }
 .home{
-  background-color: #8c9eff;
+  background-color: #212121;
+  color: white;
 }
 .service{
   background-color: #fffde7;
 }
 .stack{
-  background-color: #ffab91;
+  background-color: #212121;
+  color: white;
 }
 .portfolio {
-  background-color: #bcbcbc;
+  background-color: #fffde7;
 }
 .contact{
-  background-color: blueviolet;
+  background-color: #212121;
+  color: white;
 }
 .container{
   width: 100%;
@@ -35,9 +43,6 @@
 }
 .service-list{
   list-style: none;
-  /* display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between; */
 }
 .row{
   display: flex;
@@ -216,6 +221,15 @@
   z-index: 999;
   width: 100%;
 }
+.navbar{
+  transition: color .5s;
+}
+.background-black {
+  background-color: black;
+}
+.background-white {
+  background-color: white;
+}
 .navbar-inner{
   padding: 35px 50px;
 }
@@ -250,26 +264,34 @@
 .fullpage-slider-progress-bar{
   position: absolute;
   top: 90%;
-  left: 42.5%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.fullpage-slider-progress-bar-list{
   z-index: 999;
   list-style-type: none;
   display: flex;
   flex-direction: row;
   width: 300px;
   height: 5px;
-  margin-right: -45px;
   overflow: hidden;
   border-radius: 30px;
 }
-.fullpage-slider-progress-bar > li {
+.black .fill {
+  background-color: black;
+}
+.white .fill {
+  background-color: white;
+}
+.fullpage-slider-progress-bar-list > li {
   width: 20%;
   height: 100%;
   opacity: 1;
   z-index: 1000;
-  background-color: rgba(16, 16, 16, 0.1);
+  background-color: rgba(16, 16, 16, 0.377);
 }
-.fullpage-slider-progress-bar > .fill {
-  background-color: black;
+.fullpage-slider-progress-bar-list > .fill {
   transition: 0.5s background-color ease;
 }
 .offcanvas-menu{
@@ -359,13 +381,21 @@
 .stack-icon {
   font-size: 2em;
 }
+.contact-title{
+  /* text-align: center; */
+  margin-bottom: 2em;
+}
+/* .introduce-title{
+  text-align: center;
+} */
 .stack-icon-react{
   color: #42a5f5;
   background-color: white;
   border-radius: 15px;
   padding: 5px;
+  box-shadow: 0px 10px 13px -7px #000000, -8px -1px 10px -4px rgba(0,0,0,0);
 }
-.current-maraker::before {
+  .current-maraker::before {
   content: "- ";
 }
 .current-maraker{
@@ -476,7 +506,7 @@
     font-size: 1.1em;
   }
   .photo{
-    margin-bottom: 2em;
+    margin-bottom: .7em;
   }
   .portfolio-explanation{
     font-size: .8em;
@@ -515,7 +545,7 @@
     font-size: 1.1em;
   }
   .photo{
-    margin-bottom: 0;
+    /* margin-bottom: 0; */
   }
   .portfolio-explanation{
     font-size: .8em;
@@ -525,6 +555,9 @@
   }
   .stack-title{
     margin-bottom: .5em;
+  }
+  .progress-bar-title {
+    margin-bottom: 0;
   }
 }
 @media (min-width: 990px) {

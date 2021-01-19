@@ -17,6 +17,9 @@ function App() {
   const counterArray = useRef(new Array());
   const progressArray = useRef(new Array());
   const [changePage, setChangePage] = useState(false);
+  const dragObj = useRef({ start: null, end: null });
+  const dragLimit = useRef(35);
+  const navbarRef = useRef();
 
   const progressBarAnimation = (targetProgress, targetNumber, time) => {
     let currentProgress = 0;
@@ -31,19 +34,33 @@ function App() {
     const id = setInterval(frame, time);
   }
 
+  const ternaryOperator = (callback, oddString, evenString) => {
+    if (callback()) {
+      return [oddString, evenString];
+    }
+    return [evenString, oddString];
+  }
+
   const scrollEvent = (e) => {
-    if (isAllSliding.current) return; // 모든 슬라이더가 끝나면
+    if (isAllSliding.current) return;
     if (isMunuShow.current) return;
-    // console.log("clientX : " + e.targetTouches[0].clientY);
-    // console.log("screenY : " + e.targetTouches[0].screenY);
-    // console.log("page : " + e.targetTouches[0].pageY);
-    // event.preventDefault();
     if (e.deltaY < 0) {
-      // 스크롤 아래 방향으로
       pageEvent(-1);
     } else if (e.deltaY > 0) {
       // 위로
       pageEvent(1)
+    }
+  }
+
+  const dragEvent = () => {
+    if (isAllSliding.current) return;
+    if (isMunuShow.current) return;
+    if (dragObj.current.start - dragObj.current.end < -dragLimit.current) {
+      pageEvent(1);
+      return
+    } else if (dragObj.current.start - dragObj.current.end > dragLimit.current) {
+      pageEvent(-1);
+      return
     }
   }
 
@@ -82,6 +99,8 @@ function App() {
         pageArray[i].style.transform = `translateX(${distance}px)`;
       }
       isAllSliding.current = false;
+      dragObj.current.start = null;
+      dragObj.current.end = null;
     }, 800);
   }
 
@@ -135,6 +154,13 @@ function App() {
       menuContentsRef.current.children[i].children[0].classList.remove("current-maraker");
     }
 
+    const [nextColor, prevColor] = ternaryOperator(() => currentPage.current % 2 === 0
+      , "white", "black");
+    navbarRef.current.style.color = nextColor;
+    progressSliderArray.current.classList.add(nextColor);
+    progressSliderArray.current.classList.remove(prevColor);
+    // console.log(currentPage.current % 2 === 0);
+
     if (currentPage.current !== 2) return
     for (let i = 0; i < counterArray.current.length; i++) {
       const counter = counterArray.current[i].innerText;
@@ -154,10 +180,24 @@ function App() {
 
   useEffect(() => {
     window.addEventListener('wheel', scrollEvent);
-    window.addEventListener('touchmove', scrollEvent)
+    window.addEventListener('touchmove', (e) => {
+      if (dragObj.current.start === null) {
+        dragObj.current.start = e.touches[0].pageY;
+        return
+      }
+      dragObj.current.end = e.touches[0].pageY;
+      dragEvent();
+    })
     return () => {
       window.removeEventListener('wheel', scrollEvent);
-      window.removeEventListener('touchmove', scrollEvent)
+      window.removeEventListener('touchmove', (e) => {
+        if (dragObj.current.start === null) {
+          dragObj.current.start = e.touches[0].pageY;
+          return
+        }
+        dragObj.current.end = e.touches[0].pageY;
+        dragEvent();
+      })
     }
   }, []);
 
@@ -198,7 +238,7 @@ function App() {
             </nav>
           </footer>
         </div>
-        <nav className="navbar">
+        <nav ref={navbarRef} className="navbar">
           <div className="navbar-inner row">
             <div className="navbar-inner--left">
               <a className="navbar-logo">
@@ -214,17 +254,16 @@ function App() {
           </div>
         </nav>
       </header>
-      <footer className="footer">
-
-      </footer>
       <main className="slide">
-        <ul ref={progressSliderArray} className="fullpage-slider-progress-bar is-show">
-          <li data-menuanchor="home"></li>
-          <li data-menuanchor="service"></li>
-          <li data-menuanchor="stack"></li>
-          <li data-menuanchor="portfolio"></li>
-          <li data-menuanchor="contact"></li>
-        </ul>
+        <div className="fullpage-slider-progress-bar">
+          <ul ref={progressSliderArray} className="fullpage-slider-progress-bar-list is-show">
+            <li data-menuanchor="home"></li>
+            <li data-menuanchor="service"></li>
+            <li data-menuanchor="stack"></li>
+            <li data-menuanchor="portfolio"></li>
+            <li data-menuanchor="contact"></li>
+          </ul>
+        </div>
         <ul ref={slideWrapRef} className="slide-wrap">
           {/* home start*/}
           <li
@@ -264,21 +303,21 @@ function App() {
                     {/* hover event 추가 */}
                     <li className="service-box service-box0 row">
                       <div className="service-icon">
-                        <span><i className="fas fa-laptop-code"></i></span>
+                        <span><i className="fas fa-users"></i></span>
                       </div>
                       <div className="service-title">
-                        <h3>웹 개발을 할수있어요 !</h3>
+                        <h3>팀워크</h3>
                       </div>
                       <div className="service-description">
-                        <p>네.</p>
+                        <p>팀원들과 의논하고 소통하면서 무엇을 개발하는 일을 즐깁니다.</p>
                       </div>
                     </li>
                     <li className="service-box service-box1 row">
                       <div className="service-icon">
-                        <span><i className="fas fa-search-plus"></i></span>
+                        <span><i className="fas fa-laptop-code"></i></span>
                       </div>
                       <div className="service-title">
-                        <h3>최적화를 중요하게 생각합니다.</h3>
+                        <h3>최적화</h3>
                       </div>
                       <div className="service-description">
                         <p>사용자의 메모리를 최소한으로 사용할수 있게 항상 고민합니다.</p>
@@ -286,13 +325,13 @@ function App() {
                     </li>
                     <li className="service-box service-box2 row">
                       <div className="service-icon">
-                        <span><img></img></span>
+                        <span><i className="fas fa-magic"></i></span>
                       </div>
                       <div className="service-title">
-                        <h3>웹 개발을 할수있어요 !</h3>
+                        <h3>친숙한 디자인</h3>
                       </div>
                       <div className="service-description">
-                        <p>네.</p>
+                        <p>사용자들에게 편안하고 친숙한 디자인에 관심이 많습니다.</p>
                       </div>
                     </li>
                   </ul>
@@ -310,14 +349,11 @@ function App() {
             <div className="vertical-align">
               <div className="container">
                 <div className="row align-items-center stack-row">
-                  <figure className="photo">
+                  <div className="photo">
                     <div className="photo-inside">
                       <img src={stackPhoto}></img>
                     </div>
-                    {/* <figcaption>
-                      마땅히 올릴 사진이 없어서...
-                    </figcaption> */}
-                  </figure>
+                  </div>
                   <div className="stack-wrap">
                     <div className="stack-title">
                       <h4>저는 최적화 와 친밀한 디자인을 중요시 여기면서 웹 사이트를 만드는 것을 즐겨합니다.</h4>
@@ -418,7 +454,6 @@ function App() {
             <div className="vertical-align">
               <div className="container">
                 <div className="portfolio-header">
-                  <div className="portfolio-perpace"><h3>portfolio</h3></div>
                   <div className="portfolio-slide row">
                     <div className="portfolio-slide-button--right">
                       <button><i className="fas fa-arrow-left icon-right icon"></i></button>
@@ -479,7 +514,7 @@ function App() {
                 <div className="container">
                   <div className="row flex-direction-column contact-row">
                     <div className="contact-title">
-                      <h3>다음에 보겠습니다.</h3>
+                      <h3>저와 같은 사람들과 같이 일하기 위해 노력하고 먼저 배려하여 다른 사람들에게 저랑 일하고 싶은 좋은 개발자가 되고 싶습니다.</h3>
                     </div>
                     <div className="contant-email">
                       <a>justsicklife@gmail.com</a>
