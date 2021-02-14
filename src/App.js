@@ -266,7 +266,7 @@ function App() {
           <div className="navbar-inner row">
             <div className="navbar-inner--left">
               <a className="navbar-logo">
-                Hello!
+                정하형!
               </a>
               <a className="navbar-email">justsicklife@gmail.com</a>
             </div>
@@ -525,8 +525,8 @@ function App() {
                         </span>
                       </div>
                       <div className="portfolio-view">
-                        <a target="_blank" href="https://github.com/justsicklife/movie-search-web" className="portfolio-view--github"><i class="fab fa-github-square"></i></a>
-                        <a target="_blank" href="https://justsicklife.github.io/movie-search-web/" className="portfolio-view--web-page"><i class="fas fa-globe-americas"></i></a>
+                        <a target="_blank" href="https://github.com/justsicklife/movie-search-web" className="portfolio-view--github"><i className="fab fa-github-square"></i></a>
+                        <a target="_blank" href="https://justsicklife.github.io/movie-search-web/" className="portfolio-view--web-page"><i className="fas fa-globe-americas"></i></a>
                       </div>
                     </div>
                     <div className="portfolio-explanation row flex-direction-column">

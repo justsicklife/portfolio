@@ -2,6 +2,8 @@ body {
   position: fixed;
   left: 0;
   top: 0;
+  font-family: 'Nanum Myeongjo', serif;
+  font-family: 'Source Sans Pro', sans-serif;
 }
 .page{
   width: 100vw;
@@ -12,9 +14,15 @@ body {
 .active {
   transition: transform .7s;
 }
+.contant-email{
+  font-size: 1.2em;
+}
 .home{
   background-color: #212121;
   color: white;
+}
+.introduce-name{
+  font-size: 1.5em;
 }
 .service{
   background-color: #fffde7;
