@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import './App.css';
 import React from "react";
 import stackPhoto from "./assets/img/crabswim.gif"
+import portfolioImg1 from "./assets/img/portfolio1.png";
+import portfolioImg2 from "./assets/img/portfolio2.png";
 
 function App() {
   const menuContentsRef = useRef();
@@ -20,6 +22,25 @@ function App() {
   const dragObj = useRef({ start: null, end: null });
   const dragLimit = useRef(35);
   const navbarRef = useRef();
+  const portfolioRef = useRef();
+  const portfolioindexRef = useRef(0);
+
+  const portfolioSlideClick = (direction) => {
+    if (direction === -1 && portfolioindexRef.current !== 0) {
+      portfolioRef.current.children[1].style.display = "none";
+      portfolioRef.current.children[0].style.display = "block";
+      portfolioRef.current.children[0].style.animationName = "portfolioSlideRight";
+      portfolioRef.current.children[0].style.animationDuration = "1s";
+      portfolioindexRef.current = 0
+      return
+    } else if (direction === 1 && portfolioindexRef.current !== 1) {
+      portfolioRef.current.children[0].style.display = "none";
+      portfolioRef.current.children[1].style.display = "block";
+      portfolioRef.current.children[1].style.animationName = "portfolioSlideLeft";
+      portfolioRef.current.children[1].style.animationDuration = "1s";
+      portfolioindexRef.current = 1
+    }
+  }
 
   const progressBarAnimation = (targetProgress, targetNumber, time) => {
     let currentProgress = 0;
@@ -56,10 +77,10 @@ function App() {
     if (isAllSliding.current) return;
     if (isMunuShow.current) return;
     if (dragObj.current.start - dragObj.current.end < -dragLimit.current) {
-      pageEvent(1);
+      pageEvent(-1);
       return
     } else if (dragObj.current.start - dragObj.current.end > dragLimit.current) {
-      pageEvent(-1);
+      pageEvent(1);
       return
     }
   }
@@ -159,7 +180,6 @@ function App() {
     navbarRef.current.style.color = nextColor;
     progressSliderArray.current.classList.add(nextColor);
     progressSliderArray.current.classList.remove(prevColor);
-    // console.log(currentPage.current % 2 === 0);
 
     if (currentPage.current !== 2) return
     for (let i = 0; i < counterArray.current.length; i++) {
@@ -188,6 +208,14 @@ function App() {
       dragObj.current.end = e.touches[0].pageY;
       dragEvent();
     })
+    window.addEventListener('resize', () => {
+      for (let i = 0; i < pageArray.length; i++) {
+        if (currentPage.current === i) continue
+        const screenWidth = document.body.offsetWidth;
+        const distance = screenWidth * isSlidingArray.current[i];
+        pageArray[i].style.transform = `translateX(${distance}px)`;
+      }
+    })
     return () => {
       window.removeEventListener('wheel', scrollEvent);
       window.removeEventListener('touchmove', (e) => {
@@ -200,6 +228,7 @@ function App() {
       })
     }
   }, []);
+
 
   return (
     <div className="App">
@@ -225,14 +254,9 @@ function App() {
             <nav className="offcanvas-menu-footer-navbar">
               <ul className="offcanvas-menu-footer-navbar-content-list">
                 <li className="offcanvas-menu-footer-navbar-content">
-                  <button className="offcanvas-menu-footer-navbar-content--github">
+                  <a href="https://github.com/justsicklife" target="_blank" className="offcanvas-menu-footer-navbar-content--github">
                     <i className="fab fa-github github-icon icon"></i>
-                  </button>
-                </li>
-                <li className="offcanvas-menu-footer-navbar-content">
-                  <button className="offcanvas-menu-footer-navbar-content--email">
-                    <i className="far fa-envelope email-icon icon"></i>
-                  </button>
+                  </a>
                 </li>
               </ul>
             </nav>
@@ -453,52 +477,92 @@ function App() {
             className="portfolio page3 page">
             <div className="vertical-align">
               <div className="container">
-                <div className="portfolio-header">
-                  <div className="portfolio-slide row">
-                    <div className="portfolio-slide-button--right">
-                      <button><i className="fas fa-arrow-left icon-right icon"></i></button>
-                    </div>
-                    <div className="portfolio-current-page">1</div>
-                    <div className="protfolio-separator-page">/</div>
-                    <div className="portfolio-max-page">2</div>
-                    <div className="portfolio-slide-button--left">
-                      <button><i className="fas fa-arrow-right icon-left icon"></i></button>
-                    </div>
-                  </div>
-                </div>
-                <div className="row justify-content-center">
-                  <div className="portfolio-photo-wrap">
-                    <div className="portfolio-photo">
-                      <div>
-                        <span>이미지</span>
-                        <img></img>
+                <div ref={portfolioRef} className="row justify-content-center">
+                  <div className="portfolio-page01">
+                    <div className="portfolio-photo-wrap">
+                      <div className="portfolio-photo">
+                        <span>
+                          <img src={portfolioImg1} />
+                        </span>
+                      </div>
+                      <div className="portfolio-view">
+                        <div className="portfolio-view">
+                          <a target="_blank" href="https://github.com/justsicklife/The-Beatles-website" className="portfolio-view--github"><i className="fab fa-github-square"></i></a>
+                          <a target="_blank" href="https://justsicklife.github.io/The-Beatles-website/" className="portfolio-view--web-page"><i className="fas fa-globe-americas"></i></a>
+                        </div>
                       </div>
                     </div>
-                    <div className="gap-15"></div>
-                    <div className="portfolio-view">
-                      <div className="portfolio-view--github">깃허브</div>
-                      <div className="portfolio-view--web-page">사이트</div>
+                    <div className="portfolio-explanation row flex-direction-column">
+                      <div className="portfolio-title-preface">
+                        <h3>이름</h3>
+                      </div>
+                      <div className="portfolio-title">비틀즈 소개 사이트</div>
+                      <div className="portfolio-description-preface">
+                        <h3>설명</h3>
+                      </div>
+                      <div className="portfolio-description">비틀즈의 노래를 좋아해서 만들어본 비틀즈 소개 사이트</div>
+                      <div className="portfolio-used-stack-preface">
+                        <h3>사용된 기술</h3>
+                      </div>
+                      <ul className="portfolio-used-stack-list row">
+                        <li className="portfolio-used-stack">
+                          <div className="portfolio-used-stack--react">
+                            <i className="fab fa-react stack-icon stack-icon-react"></i>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="slide_button">
+                      <button onClick={() => portfolioSlideClick(-1)} className="slide_button__left"><i className="fas fa-chevron-left"></i></button>
+                      <button onClick={() => portfolioSlideClick(1)} className="slide_button__right"><i className="fas fa-chevron-right"></i></button>
                     </div>
                   </div>
-                  <div className="portfolio-explanation row flex-direction-column">
-                    <div className="portfolio-title-preface">
-                      <h3>이름</h3>
+                  <div className="portfolio-page02">
+                    <div className="portfolio-photo-wrap">
+                      <div className="portfolio-photo">
+                        <span>
+                          <img src={portfolioImg2} />
+                        </span>
+                      </div>
+                      <div className="portfolio-view">
+                        <a target="_blank" href="https://github.com/justsicklife/movie-search-web" className="portfolio-view--github"><i class="fab fa-github-square"></i></a>
+                        <a target="_blank" href="https://justsicklife.github.io/movie-search-web/" className="portfolio-view--web-page"><i class="fas fa-globe-americas"></i></a>
+                      </div>
                     </div>
-                    <div className="portfolio-title">비틀즈 소개 사이트</div>
-                    <div className="portfolio-description-preface">
-                      <h3>설명</h3>
+                    <div className="portfolio-explanation row flex-direction-column">
+                      <div className="portfolio-title-preface">
+                        <h3>이름</h3>
+                      </div>
+                      <div className="portfolio-title">영화 검색 사이트</div>
+                      <div className="portfolio-description-preface">
+                        <h3>설명</h3>
+                      </div>
+                      <div className="portfolio-description">영화에 관련된 정보들을 자세하게 검색하여 볼수있는 사이트</div>
+                      <div className="portfolio-used-stack-preface">
+                        <h3>사용된 기술</h3>
+                      </div>
+                      <ul className="portfolio-used-stack-list row">
+                        <li className="portfolio-used-stack">
+                          <h5 className="portfolio-used-stack--react">
+                            <i className="fab fa-react stack-icon stack-icon-react"></i>
+                          </h5>
+                        </li>
+                        <li className="portfolio-used-stack">
+                          <h5 className="portfolio-used-stack--redux">
+                            redux
+                          </h5>
+                        </li>
+                        <li className="portfolio-used-stack">
+                          <h5 className="portfolio-used-stack--redux">
+                            fetch
+                          </h5>
+                        </li>
+                      </ul>
                     </div>
-                    <div className="portfolio-description">비틀즈의 노래를 좋아해서 만들어본 비틀즈 소개 사이트</div>
-                    <div className="portfolio-used-stack-preface">
-                      <h3>사용된 기술</h3>
+                    <div className="slide_button">
+                      <button onClick={() => portfolioSlideClick(-1)} className="slide_button__left"><i className="fas fa-chevron-left"></i></button>
+                      <button onClick={() => portfolioSlideClick(1)} className="slide_button__right"><i className="fas fa-chevron-right"></i></button>
                     </div>
-                    <ul className="portfolio-used-stack-list">
-                      <li className="portfolio-used-stack">
-                        <div className="portfolio-used-stack--react">
-                          <i className="fab fa-react stack-icon stack-icon-react"></i>
-                        </div>
-                      </li>
-                    </ul>
                   </div>
                 </div>
               </div>
@@ -518,6 +582,9 @@ function App() {
                     </div>
                     <div className="contant-email">
                       <a>justsicklife@gmail.com</a>
+                    </div>
+                    <div className="contant-github">
+                      <a href="https://github.com/justsicklife" target="_blank"><i className="fab fa-github-square"></i></a>
                     </div>
                   </div>
                 </div>

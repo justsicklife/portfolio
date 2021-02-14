@@ -269,7 +269,7 @@ body {
   justify-content: center;
 }
 .fullpage-slider-progress-bar-list{
-  z-index: 999;
+  z-index: 998;
   list-style-type: none;
   display: flex;
   flex-direction: row;
@@ -352,7 +352,7 @@ body {
   font-size: 1.7em;
 }
 .portfolio-photo-wrap{
-  margin: 0 5%;
+text-align: center;
 }
 .offcanvas-menu-footer-navbar-content--github,.offcanvas-menu-footer-navbar-content--email{
   display: block;
@@ -362,32 +362,75 @@ body {
   border-radius: 7px;
 }
 .github-icon,.email-icon{
-  font-size: 3em;
+  font-size: 1.5em;
+  color: black;
 }
 .offcanvas-menu-footer-navbar-content--github{
   background-color: #ffee58;
 }
+.portfolio-photo > span >img{
+  vertical-align: middle;
+  width: 100%;
+  height: 100%;
+}
+.portfolio-photo span {
+  display: inline-block;
+  width: inherit;
+  height: inherit;
+}
 .portfolio-photo{
-  background-color: red;
-  width: 275px;
-  height: 250px;
+  width: 400px;
+  height: 350px;
+  border: 5px solid rgba(0, 0, 0, 0.301);
+  border-radius: 5px;
+  overflow: hidden;
+  display: inline-block;
 }
 .portfolio-used-stack-list{
   list-style-type: none;
 }
-.portfolio-used-stack--react{
+.portfolio-used-stack{
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0px 10px 13px -7px #000000, -8px -1px 10px -4px rgb(0 0 0 / 0%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 5px;
+}
+.portfolio-used-stack--redux{
+  padding: 7px;
+}
+.portfolio-used-stack >h5{
   display: inline;
 }
 .stack-icon {
   font-size: 2em;
 }
 .contact-title{
-  /* text-align: center; */
-  margin-bottom: 2em;
+ margin-bottom: 2em;
+ text-align: center;
 }
-/* .introduce-title{
-  text-align: center;
-} */
+@keyframes portfolioSlideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-180px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+@keyframes portfolioSlideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(180px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
 .stack-icon-react{
   color: #42a5f5;
   background-color: white;
@@ -404,16 +447,22 @@ body {
 .justify-content-center{
   justify-content: center;
 }
-.icon-left,.icon-right {
-  font-size: 3em;
+.slide_button{
+  margin-top: 15px;
+  height: 25px;
 }
-.portfolio-slide-button--right > button,.portfolio-slide-button--left > button {
-  background: none;
-  border: none;
+.slide_button__left,.slide_button__right {
+  width: 50%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.548);
+  color: rgb(255, 255, 255);
   outline: none;
+  border: none;
+  transition: all 1s;
 }
-.portfolio-slide{
-  font-size: 2em;
+.slide_button__left:hover,.slide_button__right:hover {
+  background-color: rgb(138, 138, 138);
+  color: rgba(0, 0, 0, 0.548);
 }
 .portfolio-perpace > h3{
   font-size: 3em;
@@ -431,16 +480,53 @@ body {
 .portfolio-slide{
   justify-content: center;
 }
-.portfolio-slide > * {
-  padding: 0 .6em;
+
+.portfolio-page02{
+  display: none;
 }
 .portfolio-view--github,.portfolio-view--web-page {
   display: inline-block;
-  width: 50%;
+  width: 40%;
+  height: 100%;
+  margin: 7px 5%;
+  border-radius: 5px;
   text-align: center;
-  background-color:#26c6da;
+  font-size: 1.5em;
   border: 1px solid rgba(0, 0, 0, 0.116);
+  box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0,0,0,0);
+  color: black;
 }
+.contant-github{
+  margin-top: 15px;
+}
+.contant-github > a{
+  display: inline-block;
+}
+.contant-github > a > i{
+  font-size: 4em;
+  color: yellow;
+}
+@media (max-height: 650px) {
+  .portfolio-photo{
+    height: 250px;
+  }
+}
+@media (max-width: 450px) {
+  .portfolio-photo {
+    width: 380px;
+  }
+}
+@media (max-width: 400px) {
+  .portfolio-photo {
+    width: 320px;
+  }
+}
+@media (max-width: 350px) {
+  .portfolio-photo {
+    width: 300px;
+  }
+}
+
 @media (min-width: 760px) {
   .container{
     max-width: 720px;
@@ -462,9 +548,6 @@ body {
   }
 }
 @media (max-width: 760px) {
-  .portfolio-slide > * {
-    padding: 3px;
-  }
   .service-box{
     width: 47%;
     margin: 1.5%;
@@ -517,9 +600,6 @@ body {
   
   .is-show{
     display: none;
-  }
-  .icon-right,.icon-left{
-    font-size: 2em;
   }
   .portfolio-title-preface,.portfolio-description-preface,.portfolio-used-stack-preface {
     font-size: 1.15em;
