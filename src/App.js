@@ -486,10 +486,10 @@ function App() {
                         </span>
                       </div>
                       <div className="portfolio-view">
-                        <div className="portfolio-view">
-                          <a target="_blank" href="https://github.com/justsicklife/The-Beatles-website" className="portfolio-view--github"><i className="fab fa-github-square"></i></a>
-                          <a target="_blank" href="https://justsicklife.github.io/The-Beatles-website/" className="portfolio-view--web-page"><i className="fas fa-globe-americas"></i></a>
-                        </div>
+                        {/* <div className="portfolio-view"> */}
+                        <a target="_blank" href="https://github.com/justsicklife/The-Beatles-website" className="portfolio-view--github"><i className="fab fa-github-square"></i></a>
+                        <a target="_blank" href="https://justsicklife.github.io/The-Beatles-website/" className="portfolio-view--web-page"><i className="fas fa-globe-americas"></i></a>
+                        {/* </div> */}
                       </div>
                     </div>
                     <div className="portfolio-explanation row flex-direction-column">

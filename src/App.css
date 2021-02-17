@@ -514,9 +514,14 @@ text-align: center;
   font-size: 4em;
   color: yellow;
 }
-@media (max-height: 650px) {
+@media (max-height: 700px) {
   .portfolio-photo{
     height: 250px;
+  }
+}
+@media (max-height: 600px) {
+  .portfolio-photo{
+    height: 220px;
   }
 }
 @media (max-width: 450px) {
@@ -532,6 +537,11 @@ text-align: center;
 @media (max-width: 350px) {
   .portfolio-photo {
     width: 300px;
+  }
+}
+@media (max-width: 300px) {
+  .portfolio-photo {
+    width: 250px;
   }
 }
 
