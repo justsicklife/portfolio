@@ -94,6 +94,11 @@ body {
 .progress-bar-wrap{
   width: 100%;
 }
+.portfolio_wrap{
+  max-width: 600px;
+  width: 100%;
+  margin: auto;
+}
 .progress-bar{
   background-color: rgba(16, 16, 16, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.137);
